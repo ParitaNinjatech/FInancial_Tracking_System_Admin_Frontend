@@ -1,0 +1,15 @@
+.background-image {
+    background-image: url('/home/ninjatech/Desktop/Live_Project/Finance_Tracking_System/src/assets/BackGroundImage.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 110vh;
+    padding-top: 10px;
+  }
+
+
+.box-Container{
+    padding: 0px;
+    margin-top: -11px;
+    margin-left: 240px;
+    width: 78%;
+}

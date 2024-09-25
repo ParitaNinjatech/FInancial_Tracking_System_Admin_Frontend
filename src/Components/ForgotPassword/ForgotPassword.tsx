@@ -17,7 +17,7 @@ import {
     createTheme,
     ThemeProvider
 } from "../../common/Index"
-import { BackGroundImage } from "../../assets/Image"  // Ensure this is correctly imported, or adjust the path accordingly
+import { BackGroundImage } from "../../assets/Image" 
 
 const theme = createTheme();
 

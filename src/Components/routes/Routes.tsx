@@ -1,14 +1,20 @@
-
-import { Routes, Route } from 'react-router-dom';
-import { SignUp, Signin,ForgotPassword } from "../index";
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { SignUp, Signin, ForgotPassword, Profile, Header,Dashboard } from "../index";
 
 const AppRoutes = () => {
+  const location = useLocation();
+  const noHeaderRoutes = ['/signup', '/signIn','/forgotpassword']; 
   return (
-    <Routes>
-      <Route path='/' element={<SignUp />} />
-      <Route path='/signIn' element={<Signin />} />
-      <Route path='/forgotpassword' element={<ForgotPassword/>}/>
-    </Routes>
+    <>
+      { !noHeaderRoutes.includes(location.pathname) && <Header /> }
+      <Routes>
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/signIn' element={<Signin />} />
+        <Route path='/forgotpassword' element={<ForgotPassword />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/' element={<Dashboard />} />
+      </Routes>
+    </>
   );
 };
 

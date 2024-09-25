@@ -1,0 +1,88 @@
+/* Background image for the entire profile container */
+.background-image {
+    background-image: url('/home/ninjatech/Desktop/Live_Project/Finance_Tracking_System/src/assets/BackGroundImage.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 110vh;
+    padding-top: 10px;
+  }
+  
+  /* Container styling */
+  .profile-container {
+    padding: 20px;
+    margin-top: 84px;
+    margin-left: 381px;
+  }
+  
+  /* Title (Profile) at the top */
+  .profile-title {
+    text-align: center;
+    font-weight: bold !important;
+    margin-bottom: -10px; /* Add spacing below the title */
+    color: black; /* Adjust color as needed */
+  }
+  
+  /* Profile card */
+  .profile-card {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .avatar-image {
+    margin-bottom: 10px;
+  }
+  
+  .user-name {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .user-email {
+    color: gray;
+    margin-bottom: 20px;
+  }
+  
+  .social-stats {
+    margin-top: 20px;
+  }
+  
+  .social-box {
+    text-align: center;
+  }
+  
+  /* Details card */
+  /* .details-card {
+    padding: 20px;
+  } */
+  
+  .details-section {
+    margin-bottom: 15px;
+  }
+  
+  .details-card {
+    padding: 20px;
+    position: relative;
+  }
+  
+  .edit-icon {
+    position: absolute;
+    top: 10px;
+    right: -95%;
+  }
+  
+  /* .details-section {
+    margin-bottom: 15px;
+  } */
+  
+  .update-button {
+    display: block;
+    margin: 0 auto;
+  }
+  

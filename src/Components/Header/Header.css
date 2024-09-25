@@ -1,0 +1,27 @@
+/* Sidebar.css */
+
+.sidebar-container {
+    background-color: #f8f9fa;
+  }
+  
+  .MuiListItemButton-root {
+    color: #333;
+    transition: background-color 0.3s ease;
+  }
+  
+  .MuiListItemButton-root:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .MuiListItemIcon-root {
+    color: #333;
+  }
+  
+  .MuiAppBar-root {
+    background-color: #673ab7;
+  }
+  
+  .MuiTypography-root {
+    color: black;
+  }
+  
