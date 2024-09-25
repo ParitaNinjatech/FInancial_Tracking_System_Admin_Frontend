@@ -121,20 +121,20 @@ export default function Header() {
         {/* Sidebar items with routing */}
         <List>
           <ListItem disablePadding>
-            <ListItemButton component={Link} to="/AddUser">
+            <ListItemButton component={Link} to="/AddAgent">
               <ListItemIcon>
                 <PersonAddIcon />
               </ListItemIcon>
-              <ListItemText primary="Add User" />
+              <ListItemText primary="Add Agent" />
             </ListItemButton>
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton component={Link} to="/list-users">
+            <ListItemButton component={Link} to="/list-Agent">
               <ListItemIcon>
                 <AccountBoxIcon />
               </ListItemIcon>
-              <ListItemText primary="Users List" />
+              <ListItemText primary="Agent List" />
             </ListItemButton>
           </ListItem>
 

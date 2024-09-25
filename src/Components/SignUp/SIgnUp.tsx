@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Avatar,
     Button,
@@ -11,20 +11,29 @@ import {
     Typography,
     Container,
     Card,
-    CardContent, Grid, LockOutlinedIcon, createTheme, ThemeProvider
-} from "../../common/Index"
-import { Metamask,BackGroundImage } from '../../assets/Image';
-import "./SignUp.css"
+    CardContent,
+    Grid,
+    createTheme,
+    ThemeProvider, FormControl
+} from "../../common/Index";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css'; // Importing default styles
+import { Metamask, BackGroundImage } from '../../assets/Image';
+import "./SignUp.css";
 
 const theme = createTheme();
 
 export default function SignUp() {
+    const [phoneNumber, setPhoneNumber] = useState('');
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
             email: data.get('email'),
             password: data.get('password'),
+            phone: phoneNumber, // Phone number value from state
         });
     };
 
@@ -41,18 +50,17 @@ export default function SignUp() {
                     justifyContent: 'center',
                     backgroundImage: `url(${BackGroundImage})`,
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center', 
-                    backgroundRepeat: 'no-repeat', 
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
                     padding: 0,
                     margin: 0,
                     overflow: 'hidden',
                 }}
-            
-        >
+            >
                 <CssBaseline />
                 <Grid container spacing={2} sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' }, pr: 10 }}>
-                        <Box >
+                        <Box>
                             <Typography variant="h4" gutterBottom sx={{ color: "maroon", mb: 4 }}>
                                 Welcome to the Financial Tracking System
                             </Typography>
@@ -63,7 +71,7 @@ export default function SignUp() {
                     </Grid>
 
                     {/* Right Side - Sign Up Form */}
-                    <Grid item xs={12} md={4} sx={{ pl: 8 }} >
+                    <Grid item xs={12} md={4} sx={{ pl: 8 }}>
                         <Card sx={{ p: 3 }}>
                             <CardContent>
                                 <Box
@@ -71,7 +79,6 @@ export default function SignUp() {
                                         display: 'flex',
                                         flexDirection: 'column',
                                         alignItems: 'center',
-
                                     }}
                                 >
                                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -107,12 +114,48 @@ export default function SignUp() {
                                                 <TextField
                                                     required
                                                     fullWidth
+                                                    id="userName"
+                                                    label="User Name"
+                                                    name="username"
+                                                    autoComplete="username"
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    required
+                                                    fullWidth
                                                     id="email"
                                                     label="Email Address"
                                                     name="email"
                                                     autoComplete="email"
                                                 />
                                             </Grid>
+
+                                            <Grid item xs={12}>
+
+                                                <FormControl fullWidth variant="outlined">
+                                                    <PhoneInput
+                                                        country={'us'}
+                                                        value={phoneNumber}
+                                                        onChange={setPhoneNumber}
+                                                        inputProps={{
+                                                            name: 'phone',
+                                                            required: true,
+                                                            id: 'phoneNumber',
+                                                        }}
+                                                        containerStyle={{
+                                                            width: '100%',
+                                                        }}
+                                                        inputStyle={{
+                                                            height: '56px',
+                                                            width: '100%',
+                                                            borderRadius: '4px',
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Grid>
+
+
                                             <Grid item xs={12}>
                                                 <TextField
                                                     required
@@ -135,7 +178,7 @@ export default function SignUp() {
                                             type="submit"
                                             fullWidth
                                             variant="contained"
-                                            sx={{ mt: 3, mb: 2 ,borderRadius:"26px"}}
+                                            sx={{ mt: 3, mb: 2, borderRadius: "26px" }}
                                             className='signUp-button'
                                         >
                                             Sign Up
@@ -145,7 +188,7 @@ export default function SignUp() {
                                             type="button"
                                             fullWidth
                                             variant="contained"
-                                            sx={{ mt: 3, mb: 2, display: 'flex', alignItems: 'center',borderRadius:"26px"}} 
+                                            sx={{ mt: 3, mb: 2, display: 'flex', alignItems: 'center', borderRadius: "26px" }}
                                             className="signUp-button"
                                         >
                                             <Box

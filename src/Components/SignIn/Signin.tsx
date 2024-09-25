@@ -12,31 +12,31 @@ import {
   Card,
   CardContent, Grid, LockOutlinedIcon, createTheme, ThemeProvider
 } from "../../common/Index"
-import { Metamask,BackGroundImage } from '../../assets/Image';
+import { Metamask, BackGroundImage } from '../../assets/Image';
 import React from 'react'
 const theme = createTheme();
 export default function Signin() {
   return (
     <>
       <ThemeProvider theme={theme}>
-      <Container
-                component="main"
-                maxWidth={false}
-                sx={{
-                    minHeight: '100vh',
-                    width: '100vw',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundImage: `url(${BackGroundImage})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center', 
-                    backgroundRepeat: 'no-repeat', 
-                    padding: 0,
-                    margin: 0,
-                    overflow: 'hidden',
-                }}
-            
+        <Container
+          component="main"
+          maxWidth={false}
+          sx={{
+            minHeight: '100vh',
+            width: '100vw',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundImage: `url(${BackGroundImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            padding: 0,
+            margin: 0,
+            overflow: 'hidden',
+          }}
+
         >
           <CssBaseline />
           <Grid container spacing={2} sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -71,8 +71,16 @@ export default function Signin() {
                     </Typography>
                     <Box component="form" noValidate sx={{ mt: 3 }}>
                       <Grid container spacing={2}>
-
-
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            id="userName"
+                            label="User Name"
+                            name="username"
+                            autoComplete="username"
+                          />
+                        </Grid>
                         <Grid item xs={12}>
                           <TextField
                             required

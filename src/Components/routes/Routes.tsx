@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { SignUp, Signin, ForgotPassword, Profile, Header,Dashboard } from "../index";
+import { SignUp, Signin, ForgotPassword, Profile, Header,Dashboard,AddAgent } from "../index";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -13,6 +13,7 @@ const AppRoutes = () => {
         <Route path='/forgotpassword' element={<ForgotPassword />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/' element={<Dashboard />} />
+        <Route path='/AddAgent' element={<AddAgent/>} />
       </Routes>
     </>
   );
