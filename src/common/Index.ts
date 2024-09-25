@@ -13,7 +13,15 @@ import {
     CardContent,
     Grid,IconButton,
     FormControl,
-    InputLabel
+    InputLabel,
+    MenuItem,Select,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    Switch
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -59,5 +67,13 @@ export{
     ListIcon,
     LogoutIcon,
     FormControl,
-    InputLabel
+    InputLabel,MenuItem,
+    Select,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    Switch
 }

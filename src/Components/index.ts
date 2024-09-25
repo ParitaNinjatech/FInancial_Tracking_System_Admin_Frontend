@@ -5,5 +5,6 @@ import Profile from "./Profile/Profile";
 import Header from "./Header/Header";
 import Dashboard from "./Dashboard/Dashboard";
 import AddAgent from "./AddAgent/AddAgent";
+import AgentList from "./AgentList/AgentList"
 
-export {SignUp,Signin,ForgotPassword,Profile,Header,Dashboard,AddAgent}
+export {SignUp,Signin,ForgotPassword,Profile,Header,Dashboard,AddAgent,AgentList}
