@@ -1,20 +1,51 @@
 import React,{useState} from 'react'
 import {
-    Grid, Card, CardContent, Typography, InputLabel, TextField, MenuItem, Select, Button, TableContainer, Table, TableHead, TableRow,
-    TableCell, TableBody, Switch, Box, EditIcon,IconButton
+    Grid, Card, CardContent, Typography, TableContainer, Table, TableHead, TableRow,
+    TableCell, TableBody, Box, EditIcon,IconButton,DeleteIcon
 } from "../../common/Index";
 import "./Agent.css";
 function AgentList() {
 
-    const [isEditing, setIsEditing] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemsPerPage = 10;
+    
+    
     const products = [
-        { name: 'Air Jordan', category: 'Shoes', sku: 31063, price: 125, qty: 942, status: 'Inactive' },
-        { name: 'Amazon Fire TV', category: 'Electronics', sku: 5829, price: 263.49, qty: 587, status: 'Scheduled' },
-        { name: 'Apple iPad', category: 'Electronics', sku: 35946, price: 248.39, qty: 468, status: 'Publish' },
-        { name: 'Apple Watch Series 7', category: 'Accessories', sku: 46658, price: 799, qty: 851, status: 'Scheduled' },
-        { name: 'BANGE Anti Theft Backpack', category: 'Accessories', sku: 41867, price: 79.99, qty: 519, status: 'Inactive' },
-        { name: 'Canon EOS Rebel T7', category: 'Electronics', sku: 63474, price: 399, qty: 810, status: 'Scheduled' },
+        { name: 'Air Jordan', Email: 'Shoes@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Ahmedabad", State: 'Gujarat' },
+        { name: 'Amazon Fire TV', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'Apple iPad', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'Apple Watch Series 7', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'BANGE Anti Theft Backpack', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'Canon EOS Rebel T7', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Ahmedabad", State: 'Gujarat' },
+        { name: 'Air Jordan', Email: 'Shoes@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Ahmedabad", State: 'Gujarat' },
+        { name: 'Amazon Fire TV', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'Apple iPad', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'Apple Watch Series 7', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'BANGE Anti Theft Backpack', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'Canon EOS Rebel T7', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Ahmedabad", State: 'Gujarat' },
+        { name: 'Air Jordan', Email: 'Shoes@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Ahmedabad", State: 'Gujarat' },
+        { name: 'Amazon Fire TV', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'Apple iPad', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'Apple Watch Series 7', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'BANGE Anti Theft Backpack', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Baroda", State: 'Gujarat' },
+        { name: 'Canon EOS Rebel T7', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", PhoneNumber: 1234567891, City: "Ahmedabad", State: 'Gujarat' },
     ];
+
+
+    const totalPages = Math.ceil(products.length / itemsPerPage);
+    const displayedProducts = products.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages - 1) {
+            setCurrentPage(prevPage => prevPage + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 0) {
+            setCurrentPage(prevPage => prevPage - 1);
+        }
+    };
 
     return (
         <div className='background-image'>
@@ -32,7 +63,6 @@ function AgentList() {
                     <Typography variant="h4" sx={{ fontWeight: "bold" }}>Agent List</Typography>
                     <Typography variant="body2">Dashboard / Agent List</Typography>
                 </Box>
-                {/* Top Dashboard Cards  */}
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <Card>
@@ -52,7 +82,6 @@ function AgentList() {
                     </Grid>
                 </Grid>
 
-                {/* {/ Product Table  */}
                 <Box
                     sx={{
                         flexGrow: 1,
@@ -63,60 +92,68 @@ function AgentList() {
                     <Box
                         sx={{
                             backgroundColor: '#fff',
-                            height: '1000px',
+                            height: 'auto',
                             marginTop: '20px',
                             borderRadius: '8px',
                             boxShadow: '0px 4px 12px rgba(0,0,0,0.1)',
                             padding: '20px',
-
                         }}
                     >
-                        <div style={{ marginTop: 20 }}>
-                            <Grid container spacing={2} alignItems="center">
-
-                            </Grid>
-
-                            <TableContainer>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>UserName</TableCell>
-                                            <TableCell>Email</TableCell>
-                                            <TableCell>Wallet Address</TableCell>
-                                            <TableCell>Phone Number</TableCell>
-                                            <TableCell>City</TableCell>
-                                            <TableCell>State</TableCell>
-                                            <TableCell>Actions</TableCell>
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow >
+                                        <TableCell className='table-row'>UserName</TableCell>
+                                        <TableCell className='table-row'>Email</TableCell>
+                                        <TableCell className='table-row'>Wallet Address</TableCell>
+                                        <TableCell className='table-row'>Phone Number</TableCell>
+                                        <TableCell className='table-row'>City</TableCell>
+                                        <TableCell className='table-row'>State</TableCell>
+                                        <TableCell className='table-row'>Actions</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {displayedProducts.map((product) => (
+                                        <TableRow key={product.WalletAddress}>
+                                            <TableCell>{product.name}</TableCell>
+                                            <TableCell>{product.Email}</TableCell>
+                                            <TableCell>
+                                                {(product.WalletAddress).slice(0, 6)}....{(product.WalletAddress).slice(-4)}
+                                            </TableCell>
+                                            <TableCell>{product.PhoneNumber}</TableCell>
+                                            <TableCell>{product.City}</TableCell>
+                                            <TableCell>{product.State}</TableCell>
+                                            <TableCell className='Action'>
+                                                <IconButton onClick={() => { /* Edit logic here */ }}>
+                                                    <EditIcon />
+                                                </IconButton>
+                                                <IconButton onClick={() => { /* Delete logic here */ }}>
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </TableCell>
                                         </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {products.map((product) => (
-                                            <TableRow key={product.sku}>
-                                                <TableCell>{product.name}</TableCell>
-                                                <TableCell>{product.category}</TableCell>
-                                                <TableCell>
-                                                    <Switch checked={product.status === 'Publish'} />
-                                                </TableCell>
-                                                <TableCell>{product.sku}</TableCell>
-                                                <TableCell>${product.price}</TableCell>
-                                                <TableCell>{product.qty}</TableCell>
-                                                <TableCell>
-                                                    <IconButton onClick={()=>setIsEditing(false)} className="edit-icon">
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </div>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        {/* Pagination Controls */}
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                            <button onClick={handlePrevPage} disabled={currentPage === 0}>
+                                Previous
+                            </button>
+                            <Typography variant="body1">
+                                Page {currentPage + 1} of {totalPages}
+                            </Typography>
+                            <button onClick={handleNextPage} disabled={currentPage === totalPages - 1}>
+                                Next
+                            </button>
+                        </Box>
                     </Box>
                 </Box>
             </div>
         </div>
-
-    )
+    );
 }
 
-export default AgentList
+export default AgentList;

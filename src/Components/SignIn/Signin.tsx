@@ -45,9 +45,6 @@ export default function Signin() {
                 <Typography variant="h4" gutterBottom sx={{ color: "maroon", mb: 4 }}>
                   Welcome to the Financial Tracking System
                 </Typography>
-                <Typography variant="h5" gutterBottom>
-                  Admin Panel
-                </Typography>
               </Box>
             </Grid>
 
@@ -112,7 +109,7 @@ export default function Signin() {
                         <Grid item xs={12}>
                           <FormControlLabel
                             control={<Checkbox value="allowExtraEmails" color="primary" />}
-                            label="I want to receive inspiration, marketing promotions and updates via email."
+                            label="I agree all statements in Terms of service."
                           />
                         </Grid>
                       </Grid>
@@ -143,7 +140,7 @@ export default function Signin() {
                       </Button>
                       <Grid container justifyContent="flex-end">
                         <Grid item>
-                          <Link href="/" variant="body2">
+                          <Link href="/signup" variant="body2">
                             Don't have an account? Register here
                           </Link>
                         </Grid>

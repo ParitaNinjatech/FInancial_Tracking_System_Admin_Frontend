@@ -14,18 +14,21 @@ import {
     CardContent,
     Grid,
     createTheme,
-    ThemeProvider, FormControl
+    ThemeProvider, FormControl,InputLabel,Select,
+    MenuItem
 } from "../../common/Index";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'; // Importing default styles
 import { Metamask, BackGroundImage } from '../../assets/Image';
 import "./SignUp.css";
+import { Grid2 } from '@mui/material';
 
 const theme = createTheme();
 
 export default function SignUp() {
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [selectRole,setSelectRole] = useState('')
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -43,7 +46,7 @@ export default function SignUp() {
                 component="main"
                 maxWidth={false}
                 sx={{
-                    minHeight: '100vh',
+                    minHeight: '120vh',
                     width: '100vw',
                     display: 'flex',
                     alignItems: 'center',
@@ -61,11 +64,8 @@ export default function SignUp() {
                 <Grid container spacing={2} sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' }, pr: 10 }}>
                         <Box>
-                            <Typography variant="h4" gutterBottom sx={{ color: "maroon", mb: 4 }}>
+                            <Typography variant="h4" gutterBottom sx={{ color: "maroon", mb: 5, marginTop: "-110px" }}>
                                 Welcome to the Financial Tracking System
-                            </Typography>
-                            <Typography variant="h5" gutterBottom>
-                                Admin Panel
                             </Typography>
                         </Box>
                     </Grid>
@@ -81,12 +81,15 @@ export default function SignUp() {
                                         alignItems: 'center',
                                     }}
                                 >
-                                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                                        <LockOutlinedIcon />
-                                    </Avatar>
-                                    <Typography component="h1" variant="h5">
-                                        Sign Up
-                                    </Typography>
+                                    <div style={{ display: "flex", marginTop: "3px" }}>
+                                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                                            <LockOutlinedIcon />
+                                        </Avatar>
+                                        <Typography component="h1" variant="h5" sx={{ marginTop: "10px" }}>
+                                            Sign Up
+                                        </Typography>
+                                    </div>
+
                                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                                         <Grid container spacing={2}>
                                             <Grid item xs={12} sm={6}>
@@ -130,6 +133,27 @@ export default function SignUp() {
                                                     autoComplete="email"
                                                 />
                                             </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    autoComplete="Password"
+                                                    name="Password"
+                                                    required
+                                                    fullWidth
+                                                    id="Password"
+                                                    label="Password"
+                                                    autoFocus
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    required
+                                                    fullWidth
+                                                    id="Confirm Password"
+                                                    label="Confirm Password"
+                                                    name="Confirm Password"
+                                                    autoComplete="Confirm Password"
+                                                />
+                                            </Grid>
 
                                             <Grid item xs={12}>
 
@@ -155,22 +179,72 @@ export default function SignUp() {
                                                 </FormControl>
                                             </Grid>
 
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    required
+                                                    fullWidth
+                                                    name="Residential Address"
+                                                    label="Residential Address"
+                                                    type="Residential Address"
+                                                    id="Residential Address"
+                                                    autoComplete="Residential Address"
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    autoComplete="City"
+                                                    name="City"
+                                                    required
+                                                    fullWidth
+                                                    id="City"
+                                                    label="City"
+                                                    autoFocus
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    required
+                                                    fullWidth
+                                                    id="postcode"
+                                                    label="Post Code"
+                                                    name="Post Code"
+                                                    autoComplete="Post-code"
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12}>
+                                                <FormControl fullWidth>
+                                                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={selectRole}
+                                                        label="Select Role"
+                                                        onChange={(e)=>setSelectRole(e.target.value)}
+                                                    >
+                                                        <MenuItem value="User">User</MenuItem>
+                                                        <MenuItem value="Agent">Agent</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                            </Grid>
 
                                             <Grid item xs={12}>
                                                 <TextField
                                                     required
                                                     fullWidth
-                                                    name="password"
-                                                    label="Password"
-                                                    type="password"
-                                                    id="password"
-                                                    autoComplete="new-password"
+                                                    name="Wallet Address"
+                                                    label="Wallet Address"
+                                                    type="Wallet Address"
+                                                    id="Wallet Address"
+                                                    autoComplete="Wallet Address"
                                                 />
                                             </Grid>
+
                                             <Grid item xs={12}>
                                                 <FormControlLabel
                                                     control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                                    label="I want to receive inspiration, marketing promotions and updates via email."
+                                                    label="I agree all statements in Terms of service."
                                                 />
                                             </Grid>
                                         </Grid>

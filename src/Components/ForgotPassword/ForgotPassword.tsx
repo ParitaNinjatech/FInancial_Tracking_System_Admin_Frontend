@@ -49,9 +49,6 @@ function ForgotPassword() {
                             <Typography variant="h4" gutterBottom sx={{ color: "maroon", mb: 4 }}>
                                 Welcome to the Financial Tracking System
                             </Typography>
-                            <Typography variant="h5" gutterBottom>
-                                Admin Panel
-                            </Typography>
                         </Box>
                     </Grid>
 
@@ -109,7 +106,7 @@ function ForgotPassword() {
                                             <Grid item xs={12}>
                                                 <FormControlLabel
                                                     control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                                    label="I want to receive inspiration, marketing promotions, and updates via email."
+                                                    label="I agree all statements in Terms of service."
                                                 />
                                             </Grid>
                                         </Grid>

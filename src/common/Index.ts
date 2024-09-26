@@ -36,7 +36,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export{
     Avatar,
@@ -75,5 +75,6 @@ export{
     TableRow,
     TableCell,
     TableBody,
-    Switch
+    Switch,
+    DeleteIcon
 }
