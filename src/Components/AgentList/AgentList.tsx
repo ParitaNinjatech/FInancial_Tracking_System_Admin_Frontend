@@ -67,15 +67,15 @@ function AgentList() {
                     <Grid item xs={6}>
                         <Card>
                             <CardContent>
-                                <Typography variant="h6">Total Agent</Typography>
-                                <Typography variant="h5">3000</Typography>
+                                <Typography variant="h6" className='table-row'>Total Agent</Typography>
+                                <Typography variant="h5" >3000</Typography>
                             </CardContent>
                         </Card>
                     </Grid>
                     <Grid item xs={6}>
                         <Card>
                             <CardContent>
-                                <Typography variant="h6">Total User</Typography>
+                                <Typography variant="h6" className='table-row'>Total Active Agent</Typography>
                                 <Typography variant="h5">60000</Typography>
                             </CardContent>
                         </Card>

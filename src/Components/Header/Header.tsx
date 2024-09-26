@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled, useTheme, CSSObject } from '@mui/material/styles';
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, IconButton, Typography, Toolbar, CssBaseline, MuiDrawer,MuiAppBar,AccountCircleIcon,PersonAddIcon,
   AccountBoxIcon,ListIcon,LogoutIcon
  } from '../../common/Index';
@@ -159,7 +159,7 @@ export default function Header() {
 
         <List>
             <ListItem disablePadding>
-              <ListItemButton component={Link} to="/login"> {/* Adjust the path as needed */}
+              <ListItemButton onClick={()=> {}}> 
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>

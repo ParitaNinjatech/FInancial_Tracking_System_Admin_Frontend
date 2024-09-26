@@ -14,21 +14,18 @@ import {
     CardContent,
     Grid,
     createTheme,
-    ThemeProvider, FormControl,InputLabel,Select,
-    MenuItem
+    ThemeProvider, FormControl
 } from "../../common/Index";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'; // Importing default styles
 import { Metamask, BackGroundImage } from '../../assets/Image';
 import "./SignUp.css";
-import { Grid2 } from '@mui/material';
 
 const theme = createTheme();
 
 export default function SignUp() {
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [selectRole,setSelectRole] = useState('')
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -36,7 +33,7 @@ export default function SignUp() {
         console.log({
             email: data.get('email'),
             password: data.get('password'),
-            phone: phoneNumber, // Phone number value from state
+            phone: phoneNumber, 
         });
     };
 
@@ -211,22 +208,6 @@ export default function SignUp() {
                                                     name="Post Code"
                                                     autoComplete="Post-code"
                                                 />
-                                            </Grid>
-
-                                            <Grid item xs={12}>
-                                                <FormControl fullWidth>
-                                                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                                                    <Select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        value={selectRole}
-                                                        label="Select Role"
-                                                        onChange={(e)=>setSelectRole(e.target.value)}
-                                                    >
-                                                        <MenuItem value="User">User</MenuItem>
-                                                        <MenuItem value="Agent">Agent</MenuItem>
-                                                    </Select>
-                                                </FormControl>
                                             </Grid>
 
                                             <Grid item xs={12}>

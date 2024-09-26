@@ -88,13 +88,7 @@ export default function Signin() {
                             autoComplete="email"
                           />
                         </Grid>
-                        <Grid container justifyContent="flex-end">
-                          <Grid item>
-                            <Link href="/forgotpassword" variant="body2">
-                              Forgot Password
-                            </Link>
-                          </Grid>
-                        </Grid>
+                        
                         <Grid item xs={12}>
                           <TextField
                             required
@@ -105,6 +99,13 @@ export default function Signin() {
                             id="password"
                             autoComplete="new-password"
                           />
+                        </Grid>
+                        <Grid container justifyContent="flex-end">
+                          <Grid item>
+                            <Link href="/forgotpassword" variant="body2">
+                              Forgot Password
+                            </Link>
+                          </Grid>
                         </Grid>
                         <Grid item xs={12}>
                           <FormControlLabel

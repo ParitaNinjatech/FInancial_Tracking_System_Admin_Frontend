@@ -10,7 +10,7 @@
 .box-Container{
     padding: 0px;
     margin-top: -11px;
-    margin-left: 240px;
+    margin-left: 250px;
     width: 78%;
 }
 
@@ -21,3 +21,15 @@
     margin-left: 79% !important;
     margin-top: 46px !important;
 }
+
+.Action{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+  }
+
+
+.table-row{
+    font-weight: bold !important;
+  }

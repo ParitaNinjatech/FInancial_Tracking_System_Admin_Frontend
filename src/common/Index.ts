@@ -37,6 +37,8 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckIcon from '@mui/icons-material/Check';
 
 export{
     Avatar,
@@ -76,5 +78,7 @@ export{
     TableCell,
     TableBody,
     Switch,
-    DeleteIcon
+    DeleteIcon,
+    CancelIcon,
+    CheckIcon
 }
