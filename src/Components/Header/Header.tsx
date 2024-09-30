@@ -93,7 +93,7 @@ export default function Header() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: "lightslategrey" }}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#1976d2" }}>
         <Toolbar>
           <IconButton
             color="inherit"
