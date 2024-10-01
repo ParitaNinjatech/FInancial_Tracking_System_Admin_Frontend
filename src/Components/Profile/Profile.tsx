@@ -8,17 +8,25 @@ import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+interface formdata {
+    username: string,
+    email: string,
+    password: string,
+    phoneNumber: string,
+    walletAddress: string
+}
+
 const Profile = () => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState({
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [formData, setFormData] = useState<formdata>({
         username: '',
         email: '',
         password: '',
         phoneNumber: '',
         walletAddress: ''
     });
-    const [isLoading, setIsLoading] = useState(false);
-    const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isUpdateLoading, setIsUpdateLoading] = useState<boolean>(false);
     const token = localStorage.getItem('jwtToken');
 
     const handleEditClick = () => {

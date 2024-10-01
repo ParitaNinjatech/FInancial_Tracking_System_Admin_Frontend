@@ -20,9 +20,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const theme = createTheme();
 export default function Signin() {
-  const [username, setUserName] = useState('')
-  const [password, setPassword] = useState('')
-  const [isLoading,setIsLoading] = useState(false)
+  const [username, setUserName] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [isLoading,setIsLoading] =useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

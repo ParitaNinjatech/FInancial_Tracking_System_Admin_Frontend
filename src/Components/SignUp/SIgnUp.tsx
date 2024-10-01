@@ -30,13 +30,13 @@ import 'react-toastify/dist/ReactToastify.css';
 const theme = createTheme();
 
 export default function SignUp() {
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [username, setUserName] = useState('')
-    const [password, setPassWord] = useState(' ')
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [walletAddress, setWalletAddress] = useState('')
-    const [email, setEmail] = useState('');
-    const [isLoading, setIsLoading] = useState(false)
+    const [phoneNumber, setPhoneNumber] = useState<string>('');
+    const [username, setUserName] = useState<string>('');
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassWord] = useState<string>('')
+    const [confirmPassword, setConfirmPassword] = useState<string>('')
+    const [walletAddress, setWalletAddress] = useState<string>('')
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
