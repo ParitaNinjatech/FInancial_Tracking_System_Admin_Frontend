@@ -56,8 +56,6 @@ export default function SignUp() {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log(response, "response");
-
             if (response.status === 201) {
                 toast.success("Admin Registered Successfully");
                 setTimeout(() => {

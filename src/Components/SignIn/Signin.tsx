@@ -38,7 +38,6 @@ export default function Signin() {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response.data.token, "response.data.token", response);
 
       if (response.status === 200) {
         toast.success("Admin Login SuccessFully")
