@@ -7,7 +7,6 @@ import { Backend_EndPoint } from '../Constant/EndPoints';
 import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Update } from 'vite/types/hmrPayload.js';
 
 const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
