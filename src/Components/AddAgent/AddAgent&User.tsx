@@ -1,33 +1,82 @@
-import React, { useState } from 'react'
-import { Box, Typography, Grid, CardContent, Card, TableContainer, TableHead, Table, TableCell, TableRow, TableBody, CancelIcon, IconButton, CheckIcon } from '../../common/Index'
+import React, { useEffect, useState } from 'react';
+import {
+    Box, Typography, Grid, CardContent, Card, TableContainer, TableHead,
+    Table, TableCell, TableRow, TableBody, IconButton
+} from '../../common/Index';
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckIcon from '@mui/icons-material/Check';
 import "./AddAgent.css";
+import { Backend_EndPoint } from '../Constant/EndPoints';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { format } from 'date-fns';
+
+interface RequestDetails {
+    _id: string,
+    username: string,
+    password: string,
+    email: string,
+    phoneNumber: string,
+    walletAddress: string,
+    role: string,
+    isApproved: boolean,
+    createdAt: string,
+    updatedAt: string
+}
 
 function AddAgent() {
-    const [currentPage, setCurrentPage] = useState(0);
-    const itemsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const [requestList, setRequestList] = useState<RequestDetails[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [totalConfirmAgent, setTotalConfirmAgent] = useState<number>();
+    const [totalPendingAgent, setTotalPendingAgent] = useState<number>();
+    const itemsPerPage: number = 10;
+    const token = localStorage.getItem('jwtToken');
 
-    const requestList = [
-        { UserName: 'Air Jordan', Email: 'Shoes@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Confirmed" },
-        { UserName: 'Amazon Fire TV', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Pending" },
-        { UserName: 'Apple iPad', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Confirmed" },
-        { UserName: 'Apple Watch Series 7', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Pending" },
-        { UserName: 'BANGE Anti Theft Backpack', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Confirmed" },
-        { UserName: 'Canon EOS Rebel T7', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Confirmed" },
-        { UserName: 'Air Jordan', Email: 'Shoes@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Confirmed" },
-        { UserName: 'Amazon Fire TV', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Confirmed" },
-        { UserName: 'Apple iPad', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Pending" },
-        { UserName: 'Apple Watch Series 7', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Pending" },
-        { UserName: 'BANGE Anti Theft Backpack', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Pending" },
-        { UserName: 'Canon EOS Rebel T7', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Confirmed" },
-        { UserName: 'Air Jordan', Email: 'Shoes@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Pending" },
-        { UserName: 'Amazon Fire TV', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Confirmed" },
-        { UserName: 'Apple iPad', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Pending" },
-        { UserName: 'Apple Watch Series 7', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Confirmed" },
-        { UserName: 'BANGE Anti Theft Backpack', Email: 'Accessories@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Pending" },
-        { UserName: 'Canon EOS Rebel T7', Email: 'Electronics@gmail.com', WalletAddress: "0xf326Dec1A1A5e18292B2E341B03cB23E2e08960B", Role: "Agent", CreatedAt: "26,sep 2024", Status: "Pending" },
-    ];
+    const FetchData = async () => {
+        try {
+            setIsLoading(true);
+            if (token) {
+                const response = await axios.get(`${Backend_EndPoint}api/v1/user/waiting-users`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (response.status === 200) {
+                    setRequestList(response.data);
+                    setTotalPendingAgent(response.data.length);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const FetchAllUser = async () => {
+        try {
+            if (token) {
+                const response = await axios.get(`${Backend_EndPoint}api/v1/user`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.status === 200) {
+                    setTotalConfirmAgent(response.data.length);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const totalPages = Math.ceil(requestList.length / itemsPerPage);
-    const displayedTransaction = requestList.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+    const displayedRequest = requestList.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
     const handleNextPage = () => {
         if (currentPage < totalPages - 1) {
@@ -40,6 +89,39 @@ function AddAgent() {
             setCurrentPage(prevPage => prevPage - 1);
         }
     };
+
+    const Approve = async (id: string) => {
+        try {
+            if (token) {
+                const data = JSON.stringify({ "id": id });
+                const response = await axios.post(`${Backend_EndPoint}api/v1/user/approve-user`, data, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.status === 201) {
+                    toast.success(response.data.message);
+                    setTimeout(() => {
+                        FetchData();
+                    }, 3000);
+                }
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                toast.error(error.response.data.error || "An error occurred");
+            } else {
+                toast.error("An unexpected error occurred");
+            }
+        }
+    };
+
+    useEffect(() => {
+            FetchData();
+            FetchAllUser();
+    }, []);
+
     return (
         <div className='background-image'>
             <div className='box-Container'>
@@ -50,19 +132,20 @@ function AddAgent() {
                         borderRadius: '8px',
                         boxShadow: '0px 4px 12px rgba(0,0,0,0.1)',
                         marginBottom: '20px',
-                        width: " 99%"
+                        width: "99%"
                     }}
                 >
-                    <Typography variant="h4" sx={{ fontWeight: "bold" }}>Add Agent </Typography>
-                    <Typography variant="body2">Dashboard / Add Agent </Typography>
+                    <Typography variant="h4" sx={{ fontWeight: "bold" }}>Add Agent</Typography>
+                    <Typography variant="body2">Dashboard / Add Agent</Typography>
                 </Box>
+                <ToastContainer />
 
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <Card>
                             <CardContent>
                                 <Typography variant="h6" className='table-row'>Total Confirmed Request</Typography>
-                                <Typography variant="h5">3000</Typography>
+                                <Typography variant="h5">{totalConfirmAgent}</Typography>
                             </CardContent>
                         </Card>
                     </Grid>
@@ -70,18 +153,13 @@ function AddAgent() {
                         <Card>
                             <CardContent>
                                 <Typography variant="h6" className='table-row'>Total Pending Request</Typography>
-                                <Typography variant="h5">60000</Typography>
+                                <Typography variant="h5">{totalPendingAgent}</Typography>
                             </CardContent>
                         </Card>
                     </Grid>
                 </Grid>
 
-
-                <Box
-                    sx={{
-                        padding: '20px',
-                    }}
-                >
+                <Box sx={{ padding: '20px' }}>
                     <Box
                         sx={{
                             backgroundColor: '#fff',
@@ -92,54 +170,69 @@ function AddAgent() {
                             padding: '20px',
                         }}
                     >
-                        <TableContainer>
-                            <Table>
-                                <TableHead>
-                                    <TableRow >
-                                        <TableCell className='table-row'>UserName</TableCell>
-                                        <TableCell className='table-row'>Email</TableCell>
-                                        <TableCell className='table-row'>Wallet Address</TableCell>
-                                        <TableCell className='table-row'>Role</TableCell>
-                                        <TableCell className='table-row'>CreatedAt</TableCell>
-                                        <TableCell className='table-row'>Status</TableCell>
-                                        <TableCell className='table-row'>Action</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {displayedTransaction.map((tx: any, i: any) => (
-                                        <TableRow key={i + 1}>
-                                            <TableCell>{tx.UserName}</TableCell>
-                                            <TableCell>{tx.Email}</TableCell>
-                                            <TableCell>
-                                                {(tx.WalletAddress).slice(0, 6)}....{(tx.WalletAddress).slice(-4)}
-                                            </TableCell>
-                                            <TableCell>{tx.Role}</TableCell>
-                                            <TableCell>{tx.CreatedAt}</TableCell>
-                                            <TableCell>
-                                                <span
-                                                    style={{
-                                                        color: tx.Status === 'Confirmed' ? 'blue' : 'red',
-                                                        fontWeight: 'bold'
-                                                    }}
-                                                >
-                                                    {tx.Status}
-                                                </span>
-                                            </TableCell>
-                                            <TableCell className='Action'>
-                                                <IconButton onClick={() => { /* Edit logic here */ }}>
-                                                    <CheckIcon />
-                                                </IconButton>
-                                                <IconButton onClick={() => { /* Delete logic here */ }}>
-                                                    <CancelIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        {
+                            isLoading ? (
+                                <TableContainer>
+                                    <span className="loader2"></span>
+                                </TableContainer>
+                            ) : displayedRequest.length > 0 ?(
+                                <TableContainer>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell className='table-row'>No.</TableCell>
+                                                <TableCell className='table-row'>UserName</TableCell>
+                                                <TableCell className='table-row'>Email</TableCell>
+                                                <TableCell className='table-row'>Wallet Address</TableCell>
+                                                <TableCell className='table-row'>Role</TableCell>
+                                                <TableCell className='table-row'>CreatedAt</TableCell>
+                                                <TableCell className='table-row'>UpdatedAt</TableCell>
+                                                <TableCell className='table-row'>Status</TableCell>
+                                                <TableCell className='table-row'>Action</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {displayedRequest.map((tx, i) => (
+                                                <TableRow key={i + 1}>
+                                                    <TableCell>{currentPage * itemsPerPage + i + 1}</TableCell>
+                                                    <TableCell>{tx.username}</TableCell>
+                                                    <TableCell>{tx.email}</TableCell>
+                                                    <TableCell>
+                                                        {tx.walletAddress.slice(0, 6)}....{tx.walletAddress.slice(-4)}
+                                                    </TableCell>
+                                                    <TableCell>{tx.role}</TableCell>
+                                                    <TableCell>{format(new Date(tx.createdAt), 'd MMM, yyyy HH:mm aa')}</TableCell>
+                                                    <TableCell>{format(new Date(tx.updatedAt), 'd MMM, yyyy HH:mm aa')}</TableCell>
+                                                    <TableCell>
+                                                        <span
+                                                            style={{
+                                                                color: tx.isApproved ? 'blue' : 'red',
+                                                                fontWeight: 'bold'
+                                                            }}
+                                                        >
+                                                            {tx.isApproved ? 'Approved' : 'Not Approved'}
+                                                        </span>
+                                                    </TableCell>
+                                                    <TableCell className='Action'>
+                                                        <IconButton onClick={() => Approve(tx._id)}>
+                                                            <CheckIcon />
+                                                        </IconButton>
+                                                        <IconButton>
+                                                            <CancelIcon />
+                                                        </IconButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            ):(
+                                <TableContainer> 
+                                    <h4>Request Not Found</h4>
+                                    </TableContainer>
+                            )
+                        }
 
-                        {/* Pagination Controls */}
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
                             <button onClick={handlePrevPage} disabled={currentPage === 0}>
                                 Previous
@@ -155,7 +248,7 @@ function AddAgent() {
                 </Box>
             </div>
         </div>
-    )
+    );
 }
 
-export default AddAgent
+export default AddAgent;
