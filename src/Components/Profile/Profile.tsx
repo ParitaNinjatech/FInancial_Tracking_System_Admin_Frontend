@@ -87,6 +87,7 @@ const Profile = () => {
                         'Content-Type': 'application/json',
                     },
                 });
+                
                 const { username, email, password, phoneNumber, walletAddress } = response.data;
                 setFormData({ username, email, password, phoneNumber, walletAddress });
             }

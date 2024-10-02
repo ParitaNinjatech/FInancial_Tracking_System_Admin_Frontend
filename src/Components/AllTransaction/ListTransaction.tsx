@@ -34,7 +34,7 @@ function ListTransaction() {
         try {
             setIsLoading(true)
             if (token) {
-                const response = await axios.get(`${Backend_EndPoint}api/v1/transaction`, {
+                const response = await axios.get(`${Backend_EndPoint}api/v1/transaction/get-transactions`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -43,7 +43,6 @@ function ListTransaction() {
                 if (response.status === 200) {
                     setListTransaction(response.data)
                 }
-
             }
         } catch (error) {
             console.log(error);
@@ -138,7 +137,16 @@ function ListTransaction() {
                                                         </TableCell>
                                                         <TableCell>{(tx.agentA).slice(0, 6)}....{(tx.agentA).slice(-4)}</TableCell>
                                                         <TableCell>{tx.amount}</TableCell>
-                                                        <TableCell>{tx.Status}</TableCell>
+                                                        <TableCell>
+                                                            <span
+                                                                style={{
+                                                                    color: tx.Status === 'Completed' ? 'blue' : 'Initiated' ? 'green' : 'red',
+                                                                    fontWeight: 'bold'
+                                                                }}
+                                                            >
+                                                                {tx.Status}
+                                                            </span>
+                                                        </TableCell>
                                                         <TableCell>{format(new Date(tx.createdAt), 'd MMM, yyyy HH:mm aa')}</TableCell>
                                                         <TableCell>{format(new Date(tx.updatedAt), 'd MMM, yyyy HH:mm aa')}</TableCell>
                                                     </TableRow>
@@ -158,7 +166,7 @@ function ListTransaction() {
                                         </Box></>
                                 ) : (
                                     <TableContainer>
-                                        <h4 style={{marginLeft:"45%"}}>Transaction Not Found</h4>
+                                        <h4 style={{ marginLeft: "45%" }}>Transaction Not Found</h4>
                                     </TableContainer>
                                 )
                         }
