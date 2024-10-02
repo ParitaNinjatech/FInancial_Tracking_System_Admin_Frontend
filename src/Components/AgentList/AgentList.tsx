@@ -103,7 +103,8 @@ function AgentList() {
                         <Card>
                             <CardContent>
                                 <Typography variant="h6" className='table-row'>Total Active Agent</Typography>
-                                <Typography variant="h5">60000</Typography>
+                                {totalActiveAgent ? <Typography variant="h5">{Math.floor(Math.random() * ((totalActiveAgent as number) - 1) + 1)}</Typography>:
+                                <Typography variant="h5">0</Typography>}
                             </CardContent>
                         </Card>
                     </Grid>

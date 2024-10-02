@@ -125,7 +125,7 @@ export default function Header() {
               <ListItemIcon>
                 <PersonAddIcon />
               </ListItemIcon>
-              <ListItemText primary="Add Agent" />
+              <ListItemText primary="Agent Requests" />
             </ListItemButton>
           </ListItem>
 
@@ -159,7 +159,14 @@ export default function Header() {
 
         <List>
             <ListItem disablePadding>
-              <ListItemButton onClick={()=> {}}> 
+              <ListItemButton onClick={()=> {
+                // removing jwt token
+                localStorage.removeItem("jwtToken");
+                //sending back to signin  page
+                if(localStorage.getItem("jwtToken") == null){
+                  window.location.href = "/signin";
+                }              
+              }}> 
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>
