@@ -117,9 +117,37 @@ function AddAgent() {
         }
     };
 
+    const RejectUser = async (id: String) => {
+        try {
+            if (token) {
+                const data = JSON.stringify({ "id": id });
+                const response = await axios.post(`${Backend_EndPoint}api/v1/user/reject-user`, data, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                console.log(response, "response");
+
+                if (response.status === 201) {
+                    toast.success(response.data.message);
+                    setTimeout(() => {
+                        FetchData();
+                    }, 3000);
+                }
+            }
+
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                toast.error(error.response.data.error || "An error occurred");
+            } else {
+                toast.error("An unexpected error occurred");
+            }
+        }
+    }
     useEffect(() => {
-            FetchData();
-            FetchAllUser();
+        FetchData();
+        FetchAllUser();
     }, []);
 
     return (
@@ -175,7 +203,7 @@ function AddAgent() {
                                 <TableContainer>
                                     <span className="loader2"></span>
                                 </TableContainer>
-                            ) : displayedRequest.length > 0 ?(
+                            ) : displayedRequest.length > 0 ? (
                                 <TableContainer>
                                     <Table>
                                         <TableHead>
@@ -217,7 +245,7 @@ function AddAgent() {
                                                         <IconButton onClick={() => Approve(tx._id)}>
                                                             <CheckIcon />
                                                         </IconButton>
-                                                        <IconButton>
+                                                        <IconButton onClick={() => RejectUser(tx._id)}>
                                                             <CancelIcon />
                                                         </IconButton>
                                                     </TableCell>
@@ -226,10 +254,10 @@ function AddAgent() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                            ):(
-                                <TableContainer> 
-                                    <h4>Request Not Found</h4>
-                                    </TableContainer>
+                            ) : (
+                                <TableContainer>
+                                    <h4 style={{marginLeft:"45%"}}>Request Not Found</h4>
+                                </TableContainer>
                             )
                         }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Box, Card, CardContent, Grid, Typography, IconButton, TextField, Button, EditIcon } from '../../common/Index';
+import { Avatar, Box, Card, CardContent, Grid, Typography, IconButton, TextField, Button, EditIcon, Link } from '../../common/Index';
 import './Profile.css';
 import { jwtDecode } from 'jwt-decode';
 import { Dog } from "../../assets/Image";
@@ -40,6 +40,7 @@ const Profile = () => {
 
     const handleUpdate = async () => {
         try {
+            setIsUpdateLoading(true)
             if (token) {
                 const user: any = jwtDecode(token);
                 const payload = {
@@ -92,7 +93,7 @@ const Profile = () => {
         } catch (error) {
             console.log(error);
         } finally {
-            setIsLoading(false);
+          
         }
     };
 
@@ -171,11 +172,13 @@ const Profile = () => {
                                         name="password"
                                         type="password"
                                         value={formData.password}
-                                        onChange={handleInputChange}
                                         variant="outlined"
                                         size="small"
-                                        disabled={!isEditing}
+                                        disabled
                                     />
+                                    <Link href="/forgotpassword" variant="body2" sx={{marginLeft:"82%"}} >
+                                        Forgot Password
+                                    </Link>
                                 </Box>
 
                                 {/* Phone Number */}

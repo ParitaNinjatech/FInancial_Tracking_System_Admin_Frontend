@@ -177,7 +177,7 @@ function AgentList() {
                                 </Box></>
                         ) : (
                             <TableContainer>
-                                <h4>Agent Not Found</h4>
+                                <h4 style={{marginLeft:"45%"}}>Agent Not Found</h4>
                             </TableContainer>
                         )}
 
