@@ -139,7 +139,7 @@ export default function Header() {
               <ListItemIcon>
                 <PersonAddIcon />
               </ListItemIcon>
-              <ListItemText primary="Add Agent" />
+              <ListItemText primary="Agent Requests" />
             </ListItemButton>
           </ListItem>
 
@@ -172,15 +172,22 @@ export default function Header() {
         </List>
 
         <List>
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => Logout()}>
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary="LogOut" sx={{ color: "black" }} />
-            </ListItemButton>
-          </ListItem>
-        </List>
+            <ListItem disablePadding>
+              <ListItemButton onClick={()=> {
+                // removing jwt token
+                localStorage.removeItem("jwtToken");
+                //sending back to signin  page
+                if(localStorage.getItem("jwtToken") == null){
+                  window.location.href = "/signin";
+                }              
+              }}> 
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="LogOut" sx={{ color: "black" }} />
+              </ListItemButton>
+            </ListItem>
+          </List>
 
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, padding: "3px" }}>

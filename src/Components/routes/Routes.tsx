@@ -3,7 +3,7 @@ import { SignUp, Signin, ForgotPassword, Profile, Header,Dashboard,AddAgent,Agen
 
 const AppRoutes = () => {
   const location = useLocation();
-  const noHeaderRoutes = ['/signup', '/signIn','/forgotpassword']; 
+  const noHeaderRoutes = ['/signup', '/signin','/forgotpassword']; 
   return (
     <>
       { !noHeaderRoutes.includes(location.pathname) && <Header /> }

@@ -29,7 +29,7 @@ function Dashboard() {
                         width:" 99%"
                     }}
                 >
-                    <Typography variant="h4" sx={{fontWeight:"bold"}}>Welcome to My Admin</Typography>
+                    <Typography variant="h4" sx={{fontWeight:"bold"}}>Admin Panel</Typography>
                     <Typography variant="body2">Dashboard</Typography>
                 </Box>
 

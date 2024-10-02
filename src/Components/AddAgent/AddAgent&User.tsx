@@ -163,8 +163,8 @@ function AddAgent() {
                         width: "99%"
                     }}
                 >
-                    <Typography variant="h4" sx={{ fontWeight: "bold" }}>Add Agent</Typography>
-                    <Typography variant="body2">Dashboard / Add Agent</Typography>
+                    <Typography variant="h4" sx={{ fontWeight: "bold" }}>Agent Requests</Typography>
+                    <Typography variant="body2">Dashboard / Agent Requests</Typography>
                 </Box>
                 <ToastContainer />
 
