@@ -1,12 +1,15 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled, useTheme, CSSObject } from '@mui/material/styles';
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, IconButton, Typography, Toolbar, CssBaseline, MuiDrawer,MuiAppBar,AccountCircleIcon,PersonAddIcon,
-  AccountBoxIcon,ListIcon,LogoutIcon
- } from '../../common/Index';
+import {
+  Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, IconButton, Typography, Toolbar, CssBaseline, MuiDrawer, MuiAppBar, AccountCircleIcon, PersonAddIcon,
+  AccountBoxIcon, ListIcon, LogoutIcon
+} from '../../common/Index';
 import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { Menu as MenuIcon, ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon, Inbox as InboxIcon, Mail as MailIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const drawerWidth = 240;
 
@@ -80,8 +83,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function Header() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const Logout = async () => {
+    try {
+      localStorage.setItem('jwtToken', "");
+      toast.success("Admin LogOut SuccessFully");
+      setTimeout(() => {
+        window.location.href = '/signIn';
+      }, 3000);
+    } catch (error) {
 
+    }
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -95,6 +108,7 @@ export default function Header() {
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: "#1976d2" }}>
         <Toolbar>
+          <ToastContainer/>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -158,20 +172,20 @@ export default function Header() {
         </List>
 
         <List>
-            <ListItem disablePadding>
-              <ListItemButton onClick={()=> {}}> 
-                <ListItemIcon>
-                  <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText primary="LogOut" sx={{ color: "black" }} />
-              </ListItemButton>
-            </ListItem>
-          </List>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => Logout()}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary="LogOut" sx={{ color: "black" }} />
+            </ListItemButton>
+          </ListItem>
+        </List>
 
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, padding: "3px" }}>
         <DrawerHeader />
-        
+
       </Box>
     </Box>
   );

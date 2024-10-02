@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-    Grid, Card, CardContent, Typography, TableContainer, Table, TableHead, TableRow,
+    Typography, TableContainer, Table, TableHead, TableRow,
     TableCell, TableBody, Box
 } from "../../common/Index";
 import './ListTransaction.css';
@@ -51,6 +51,8 @@ function ListTransaction() {
             setIsLoading(false)
         }
     }
+
+
     const totalPages = Math.ceil(listTrasaction.length / itemsPerPage);
     const displayedTransaction = listTrasaction.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
@@ -67,10 +69,10 @@ function ListTransaction() {
     };
 
     useEffect(() => {
-        if(token){
+        if (token) {
             FetchAllTrasaction()
         }
-    },[])
+    }, [])
     return (
         <div className='background-image'>
             <div className='box-Container'>
@@ -156,7 +158,7 @@ function ListTransaction() {
                                         </Box></>
                                 ) : (
                                     <TableContainer>
-                                        <h4>Transaction Not Found</h4>
+                                        <h4 style={{marginLeft:"45%"}}>Transaction Not Found</h4>
                                     </TableContainer>
                                 )
                         }
