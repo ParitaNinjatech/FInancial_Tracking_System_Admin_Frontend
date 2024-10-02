@@ -59,7 +59,7 @@ export default function SignUp() {
             if (response.status === 201) {
                 toast.success("Admin Registered Successfully");
                 setTimeout(() => {
-                    window.location.href = '/signIn';
+                    window.location.href = '/signin';
                 }, 3000);
             }
         } catch (error) {
@@ -263,7 +263,7 @@ export default function SignUp() {
                                         </Button>
                                         <Grid container justifyContent="flex-end">
                                             <Grid item>
-                                                <Link href="/signIn" variant="body2">
+                                                <Link href="/signin" variant="body2">
                                                     Already have an account? Sign in
                                                 </Link>
                                             </Grid>

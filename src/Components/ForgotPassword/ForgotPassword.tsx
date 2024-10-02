@@ -50,7 +50,7 @@ function ForgotPassword() {
                 toast.success("Admin Change Password SuccessFully")
         
                 setTimeout(() => {
-                  window.location.href = '/signIn';
+                  window.location.href = '/signin';
                 }, 3000);
               }
 
@@ -172,7 +172,7 @@ function ForgotPassword() {
                                         </Button>
                                         <Grid container justifyContent="flex-end">
                                             <Grid item>
-                                                <Link href="/signIn" variant="body2">
+                                                <Link href="/signin" variant="body2">
                                                     Back to Login
                                                 </Link>
                                             </Grid>

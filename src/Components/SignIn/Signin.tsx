@@ -44,7 +44,7 @@ export default function Signin() {
         localStorage.setItem('jwtToken', response.data.token);
 
         setTimeout(() => {
-          window.location.href = '/';
+          window.location.href = '/home/';
         }, 3000);
       }
 

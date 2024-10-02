@@ -86,11 +86,9 @@ export default function Header() {
   const [open, setOpen] = useState<boolean>(false);
   const Logout = async () => {
     try {
-      localStorage.setItem('jwtToken', "");
+      localStorage.removeItem('jwtToken');
       toast.success("Admin LogOut SuccessFully");
-      setTimeout(() => {
-        window.location.href = '/signIn';
-      }, 3000);
+      window.location.href = '/signin';
     } catch (error) {
 
     }
@@ -118,7 +116,7 @@ export default function Header() {
           >
             <MenuIcon />
           </IconButton>
-          <Link to="/" style={{ textDecoration: 'none' }}> {/* Add Link here */}
+          <Link to="/home" style={{ textDecoration: 'none' }}> {/* Add Link here */}
             <Typography variant="h6" noWrap component="div" sx={{ color: "white" }}>
               Admin Panel
             </Typography>
@@ -135,7 +133,7 @@ export default function Header() {
         {/* Sidebar items with routing */}
         <List>
           <ListItem disablePadding>
-            <ListItemButton component={Link} to="/AddAgent">
+            <ListItemButton component={Link} to="/home/AddAgent">
               <ListItemIcon>
                 <PersonAddIcon />
               </ListItemIcon>
@@ -144,7 +142,7 @@ export default function Header() {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton component={Link} to="/list-Agent">
+            <ListItemButton component={Link} to="/home/list-Agent">
               <ListItemIcon>
                 <AccountBoxIcon />
               </ListItemIcon>
@@ -153,7 +151,7 @@ export default function Header() {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton component={Link} to="/AllTransaction">
+            <ListItemButton component={Link} to="/home/AllTransaction">
               <ListItemIcon>
                 <ListIcon />
               </ListItemIcon>
@@ -162,7 +160,7 @@ export default function Header() {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton component={Link} to="/profile">
+            <ListItemButton component={Link} to="/home/profile">
               <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
@@ -173,18 +171,11 @@ export default function Header() {
 
         <List>
             <ListItem disablePadding>
-              <ListItemButton onClick={()=> {
-                // removing jwt token
-                localStorage.removeItem("jwtToken");
-                //sending back to signin  page
-                if(localStorage.getItem("jwtToken") == null){
-                  window.location.href = "/signin";
-                }              
-              }}> 
+              <ListItemButton onClick={Logout}> 
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>
-                <ListItemText primary="LogOut" sx={{ color: "black" }} />
+                <ListItemText primary="Log out" sx={{ color: "black" }} />
               </ListItemButton>
             </ListItem>
           </List>

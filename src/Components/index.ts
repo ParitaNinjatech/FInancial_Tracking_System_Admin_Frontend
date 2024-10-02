@@ -7,5 +7,6 @@ import Dashboard from "./Dashboard/Dashboard";
 import AddAgent from "./AddAgent/AddAgent&User";
 import AgentList from "./AgentList/AgentList"
 import ListTransaction from "./AllTransaction/ListTransaction";
+import NotFound from "./NotFound/NotFound";
 
-export {SignUp,Signin,ForgotPassword,Profile,Header,Dashboard,AddAgent,AgentList,ListTransaction}
+export {SignUp,Signin,ForgotPassword,Profile,Header,Dashboard,AddAgent,AgentList,ListTransaction,NotFound}
