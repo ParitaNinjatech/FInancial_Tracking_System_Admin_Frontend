@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, useTheme, CSSObject } from '@mui/material/styles';
 import {
   Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, IconButton, Typography, Toolbar, CssBaseline, MuiDrawer, MuiAppBar, AccountCircleIcon, PersonAddIcon,
-  AccountBoxIcon, ListIcon, LogoutIcon
+  AccountBoxIcon, ListIcon, LogoutIcon,LockIcon,LockOpenIcon
 } from '../../common/Index';
 import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { Menu as MenuIcon, ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon, Inbox as InboxIcon, Mail as MailIcon } from '@mui/icons-material';
@@ -84,17 +84,25 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>();
+  useEffect(() => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    setToken(jwtToken);
+  }, []);
+
   const Logout = async () => {
     try {
-      localStorage.setItem('jwtToken', "");
-      toast.success("Admin LogOut SuccessFully");
+      localStorage.setItem('jwtToken', '');
+      toast.success("Admin LogOut Successfully");
+      setToken(null);
       setTimeout(() => {
         window.location.href = '/signIn';
       }, 3000);
     } catch (error) {
-
+      console.error(error);
     }
   }
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -108,7 +116,7 @@ export default function Header() {
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: "#1976d2" }}>
         <Toolbar>
-          <ToastContainer/>
+          <ToastContainer />
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -118,81 +126,95 @@ export default function Header() {
           >
             <MenuIcon />
           </IconButton>
-          <Link to="/" style={{ textDecoration: 'none' }}> {/* Add Link here */}
+          <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography variant="h6" noWrap component="div" sx={{ color: "white" }}>
               Admin Panel
             </Typography>
           </Link>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} >
+
+      <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        {/* Sidebar items with routing */}
         <List>
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/AddAgent">
-              <ListItemIcon>
-                <PersonAddIcon />
-              </ListItemIcon>
-              <ListItemText primary="Agent Requests" />
-            </ListItemButton>
-          </ListItem>
+          {token ? (
+            <>
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/AddAgent">
+                  <ListItemIcon>
+                    <PersonAddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Agent Requests" />
+                </ListItemButton>
+              </ListItem>
 
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/list-Agent">
-              <ListItemIcon>
-                <AccountBoxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Agent List" />
-            </ListItemButton>
-          </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/list-Agent">
+                  <ListItemIcon>
+                    <AccountBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Agent List" />
+                </ListItemButton>
+              </ListItem>
 
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/AllTransaction">
-              <ListItemIcon>
-                <ListIcon />
-              </ListItemIcon>
-              <ListItemText primary="Transaction List" />
-            </ListItemButton>
-          </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/AllTransaction">
+                  <ListItemIcon>
+                    <ListIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Transaction List" />
+                </ListItemButton>
+              </ListItem>
 
-          <ListItem disablePadding>
-            <ListItemButton component={Link} to="/profile">
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile" sx={{ color: "black" }} />
-            </ListItemButton>
-          </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/profile">
+                  <ListItemIcon>
+                    <AccountCircleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Profile" />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem disablePadding>
+                <ListItemButton onClick={Logout}>
+                  <ListItemIcon>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="LogOut" sx={{ color: "black" }} />
+                </ListItemButton>
+              </ListItem>
+            </>
+          ) : (
+            <>
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/signIn">
+                  <ListItemIcon>
+                    <LockOpenIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Sign In" />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/signup">
+                  <ListItemIcon>
+                    <LockIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Sign Up" />
+                </ListItemButton>
+              </ListItem>
+            </>
+          )}
         </List>
-
-        <List>
-            <ListItem disablePadding>
-              <ListItemButton onClick={()=> {
-                // removing jwt token
-                localStorage.removeItem("jwtToken");
-                //sending back to signin  page
-                if(localStorage.getItem("jwtToken") == null){
-                  window.location.href = "/signin";
-                }              
-              }}> 
-                <ListItemIcon>
-                  <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText primary="LogOut" sx={{ color: "black" }} />
-              </ListItemButton>
-            </ListItem>
-          </List>
-
       </Drawer>
+
       <Box component="main" sx={{ flexGrow: 1, p: 3, padding: "3px" }}>
         <DrawerHeader />
-
       </Box>
     </Box>
   );

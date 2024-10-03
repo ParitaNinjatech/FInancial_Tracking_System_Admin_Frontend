@@ -67,7 +67,8 @@ function AddAgent() {
                 });
 
                 if (response.status === 200) {
-                    setTotalConfirmAgent(response.data.length);
+                    const agentsOnly = (response.data).filter((agent: RequestDetails) => agent.role === 'Agent');
+                    setTotalConfirmAgent(agentsOnly.length);
                 }
             }
         } catch (error) {
@@ -191,11 +192,13 @@ function AddAgent() {
                     <Box
                         sx={{
                             backgroundColor: '#fff',
-                            height: 'auto',
+                            height: '80vh',
                             marginTop: '20px',
                             borderRadius: '8px',
                             boxShadow: '0px 4px 12px rgba(0,0,0,0.1)',
                             padding: '20px',
+                            display: 'flex',
+                            flexDirection: 'column',
                         }}
                     >
                         {
@@ -256,12 +259,12 @@ function AddAgent() {
                                 </TableContainer>
                             ) : (
                                 <TableContainer>
-                                    <h4 style={{marginLeft:"45%"}}>Request Not Found</h4>
+                                    <h3 style={{ textAlign: "center" }}>Request Not Found</h3>
                                 </TableContainer>
                             )
                         }
 
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 'auto' }}>
                             <button onClick={handlePrevPage} disabled={currentPage === 0}>
                                 Previous
                             </button>

@@ -99,11 +99,13 @@ function ListTransaction() {
                     <Box
                         sx={{
                             backgroundColor: '#fff',
-                            height: 'auto',
+                            height: '80vh',
                             marginTop: '20px',
                             borderRadius: '8px',
                             boxShadow: '0px 4px 12px rgba(0,0,0,0.1)',
                             padding: '20px',
+                            display: 'flex',
+                            flexDirection: 'column',
                         }}
                     >
                         {
@@ -153,7 +155,8 @@ function ListTransaction() {
                                                 ))}
                                             </TableBody>
                                         </Table>
-                                    </TableContainer><Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                                    </TableContainer>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 'auto' }}>
                                             <button onClick={handlePrevPage} disabled={currentPage === 0}>
                                                 Previous
                                             </button>

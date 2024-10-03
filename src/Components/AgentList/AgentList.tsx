@@ -23,18 +23,16 @@ interface AgentDetails {
 }
 
 function AgentList() {
-
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [agentList, setAgentList] = useState<AgentDetails[]>([]);
     const [totalActiveAgent, setTotalActiveAgent] = useState<number>();
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const itemsPerPage: number = 10;
     const token = localStorage.getItem('jwtToken');
 
-
     const FetchAllUser = async () => {
         try {
-            setIsLoading(true)
+            setIsLoading(true);
             if (token) {
                 const response = await axios.get(`${Backend_EndPoint}api/v1/user`, {
                     headers: {
@@ -44,16 +42,19 @@ function AgentList() {
                 });
 
                 if (response.status === 200) {
-                    setTotalActiveAgent(response.data.length);
-                    setAgentList(response.data)
+                    const agentsOnly = (response.data).filter((agent: AgentDetails) => agent.role === 'Agent');
+                    console.log(agentsOnly,"agentsOnly");
+                    
+                    setTotalActiveAgent(agentsOnly.length);
+                    setAgentList(agentsOnly);
                 }
             }
         } catch (error) {
             console.error(error);
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
     const totalPages = Math.ceil(agentList.length / itemsPerPage);
     const displayedAgents = agentList.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
@@ -103,8 +104,7 @@ function AgentList() {
                         <Card>
                             <CardContent>
                                 <Typography variant="h6" className='table-row'>Total Active Agent</Typography>
-                                {totalActiveAgent ? <Typography variant="h5">{Math.floor(Math.random() * ((totalActiveAgent as number) - 1) + 1)}</Typography>:
-                                <Typography variant="h5">0</Typography>}
+                                {totalActiveAgent || 0}
                             </CardContent>
                         </Card>
                     </Grid>
@@ -120,11 +120,13 @@ function AgentList() {
                     <Box
                         sx={{
                             backgroundColor: '#fff',
-                            height: 'auto',
+                            height: '80vh',  
                             marginTop: '20px',
                             borderRadius: '8px',
                             boxShadow: '0px 4px 12px rgba(0,0,0,0.1)',
                             padding: '20px',
+                            display: 'flex',
+                            flexDirection: 'column', 
                         }}
                     >
                         {isLoading ? (
@@ -133,7 +135,7 @@ function AgentList() {
                             </TableContainer>
                         ) : displayedAgents.length > 0 ? (
                             <>
-                                <TableContainer>
+                                <TableContainer sx={{ flexGrow: 1, overflowY: 'auto' }}>
                                     <Table>
                                         <TableHead>
                                             <TableRow>
@@ -142,29 +144,30 @@ function AgentList() {
                                                 <TableCell className='table-row'>Email</TableCell>
                                                 <TableCell className='table-row'>Wallet Address</TableCell>
                                                 <TableCell className='table-row'>Phone Number</TableCell>
-                                                <TableCell className='table-row'>Role</TableCell>
                                                 <TableCell className='table-row'>CreatedAt</TableCell>
-                                                <TableCell className='table-row'>updatedAt</TableCell>
+                                                <TableCell className='table-row'>UpdatedAt</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {displayedAgents.map((agent: any, i: any) => (
                                                 <TableRow key={i + 1}>
-                                                     <TableCell>{currentPage * itemsPerPage + i + 1}</TableCell>
+                                                    <TableCell>{currentPage * itemsPerPage + i + 1}</TableCell>
                                                     <TableCell>{agent.username}</TableCell>
                                                     <TableCell>{agent.email}</TableCell>
                                                     <TableCell>
                                                         {(agent.walletAddress).slice(0, 6)}....{(agent.walletAddress).slice(-4)}
                                                     </TableCell>
                                                     <TableCell>{agent.phoneNumber}</TableCell>
-                                                    <TableCell>{agent.role}</TableCell>
                                                     <TableCell>{format(new Date(agent.createdAt), 'd MMM, yyyy HH:mm aa')}</TableCell>
                                                     <TableCell>{format(new Date(agent.updatedAt), 'd MMM, yyyy HH:mm aa')}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
                                     </Table>
-                                </TableContainer><Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                                </TableContainer>
+                                
+                                {/* Pagination Controls */}
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 'auto' }}>
                                     <button onClick={handlePrevPage} disabled={currentPage === 0}>
                                         Previous
                                     </button>
@@ -174,14 +177,13 @@ function AgentList() {
                                     <button onClick={handleNextPage} disabled={currentPage === totalPages - 1}>
                                         Next
                                     </button>
-                                </Box></>
+                                </Box>
+                            </>
                         ) : (
                             <TableContainer>
-                                <h4 style={{marginLeft:"45%"}}>Agent Not Found</h4>
+                                <h4 style={{ marginLeft: "45%" }}>Agent Not Found</h4>
                             </TableContainer>
                         )}
-
-
                     </Box>
                 </Box>
             </div>
