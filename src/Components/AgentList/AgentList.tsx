@@ -43,7 +43,6 @@ function AgentList() {
 
                 if (response.status === 200) {
                     const agentsOnly = (response.data).filter((agent: AgentDetails) => agent.role === 'Agent');
-                    console.log(agentsOnly,"agentsOnly");
                     
                     setTotalActiveAgent(agentsOnly.length);
                     setAgentList(agentsOnly);

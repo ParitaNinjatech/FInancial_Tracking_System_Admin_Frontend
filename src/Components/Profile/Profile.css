@@ -84,6 +84,12 @@
   .update-button {
     display: block;
     margin: 0 auto;
+    border-radius: 16px !important;
+    width: 148px;
+    height: 51px;
+    margin-left: 242px !important;
+    margin-top: 20px !important;
+
   }
   
 
