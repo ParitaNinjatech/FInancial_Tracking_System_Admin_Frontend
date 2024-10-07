@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
     Typography, TableContainer, Table, TableHead, TableRow,
-    TableCell, TableBody, Box
+    TableCell, TableBody, Box,
+    IconButton, Paper, InputBase, SearchIcon
 } from "../../common/Index";
 import './ListTransaction.css';
 import { Backend_EndPoint } from '../Constant/EndPoints';
@@ -26,7 +27,8 @@ interface ListTrasaction {
 function ListTransaction() {
     const [currentPage, setCurrentPage] = useState(0);
     const [listTrasaction, setListTransaction] = useState<ListTrasaction[]>([])
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [searchTerm, setSearchTerm] = useState<string>('');
     const itemsPerPage = 10;
     const token = localStorage.getItem('jwtToken');
 
@@ -51,9 +53,19 @@ function ListTransaction() {
         }
     }
 
+    const filteredTransactions = useMemo(() => {
+        if (!searchTerm) return listTrasaction;
+        return listTrasaction.filter(tx =>
+            tx.txId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            tx.from.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            tx.to.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            tx.agentA.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            tx.Status.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [listTrasaction, searchTerm]);
 
-    const totalPages = Math.ceil(listTrasaction.length / itemsPerPage);
-    const displayedTransaction = listTrasaction.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+    const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+    const displayedTransaction = filteredTransactions.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
     const handleNextPage = () => {
         if (currentPage < totalPages - 1) {
@@ -65,6 +77,10 @@ function ListTransaction() {
         if (currentPage > 0) {
             setCurrentPage(prevPage => prevPage - 1);
         }
+    };
+
+    const handleFocus = () => {
+        setSearchTerm('');
     };
 
     useEffect(() => {
@@ -85,8 +101,26 @@ function ListTransaction() {
                         width: "100%"
                     }}
                 >
-                    <Typography variant="h4" sx={{ fontWeight: "bold" }}>Transaction List</Typography>
-                    <Typography variant="body2">Dashboard / Transaction List</Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Typography variant="h4" sx={{ fontWeight: "bold" }}>Transaction List ({listTrasaction.length || 0})</Typography>
+
+                        <Paper
+                            component="form"
+                            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, marginLeft: "49%" }}
+                        >
+                            <InputBase
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder="Search transactions"
+                                inputProps={{ 'aria-label': 'search transactions' }}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onFocus={handleFocus}
+                            />
+                            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                <SearchIcon />
+                            </IconButton>
+                        </Paper>
+                    </Box>
                 </Box>
 
                 <Box
@@ -142,13 +176,17 @@ function ListTransaction() {
                                                         <TableCell>
                                                             <span
                                                                 style={{
-                                                                    color: tx.Status === 'Completed' ? 'blue' : 'Initiated' ? 'green' : 'red',
-                                                                    fontWeight: 'bold'
+                                                                    color:
+                                                                        tx.Status === 'Completed' ? 'blue' :
+                                                                            tx.Status === 'Initiated' ? 'green' :
+                                                                                tx.Status === 'Cancelled' ? 'red' : 'yellow',
+                                                                    fontWeight: 'bold',
                                                                 }}
                                                             >
                                                                 {tx.Status}
                                                             </span>
                                                         </TableCell>
+
                                                         <TableCell>{format(new Date(tx.createdAt), 'd MMM, yyyy HH:mm aa')}</TableCell>
                                                         <TableCell>{format(new Date(tx.updatedAt), 'd MMM, yyyy HH:mm aa')}</TableCell>
                                                     </TableRow>

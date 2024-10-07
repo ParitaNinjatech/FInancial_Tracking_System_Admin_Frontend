@@ -36,6 +36,8 @@ function AddAgent() {
 
     const FetchData = async () => {
         try {
+            console.log("hello");
+            
             setIsLoading(true);
             if (token) {
                 const response = await axios.get(`${Backend_EndPoint}api/v1/user/waiting-users`, {
@@ -44,6 +46,8 @@ function AddAgent() {
                         'Content-Type': 'application/json',
                     },
                 });
+                console.log(response,"response");
+                
                 if (response.status === 200) {
                     setRequestList(response.data);
                     setTotalPendingAgent(response.data.length);
@@ -58,6 +62,8 @@ function AddAgent() {
 
     const FetchAllUser = async () => {
         try {
+            console.log("hello2");
+            
             if (token) {
                 const response = await axios.get(`${Backend_EndPoint}api/v1/user`, {
                     headers: {
@@ -147,9 +153,12 @@ function AddAgent() {
         }
     }
     useEffect(() => {
-        FetchData();
-        FetchAllUser();
-    }, []);
+        if (token) {
+            FetchData();
+            FetchAllUser();
+        }
+    }, [token]);  // Ensure the effect is only called when necessary
+    
 
     return (
         <div className='background-image'>
@@ -265,13 +274,13 @@ function AddAgent() {
                         }
 
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 'auto' }}>
-                            <button onClick={handlePrevPage} disabled={currentPage === 0}>
+                            <button type='button' onClick={handlePrevPage} disabled={currentPage === 0}>
                                 Previous
                             </button>
                             <Typography variant="body1">
                                 Page {currentPage + 1} of {totalPages}
                             </Typography>
-                            <button onClick={handleNextPage} disabled={currentPage === totalPages - 1}>
+                            <button  type='button' onClick={handleNextPage} disabled={currentPage === totalPages - 1}>
                                 Next
                             </button>
                         </Box>

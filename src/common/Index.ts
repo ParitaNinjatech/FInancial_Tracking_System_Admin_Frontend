@@ -43,6 +43,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
 
 export{
     Avatar,
@@ -89,5 +92,8 @@ export{
     toast,
     axios,
     LockIcon,
-    LockOpenIcon
+    LockOpenIcon,
+    Paper,
+    InputBase,
+    SearchIcon
 }

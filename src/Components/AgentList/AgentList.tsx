@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
     Grid, Card, CardContent, Typography, TableContainer, Table, TableHead, TableRow,
-    TableCell, TableBody, Box
+    TableCell, TableBody, Box, Paper, InputBase, SearchIcon,
+    IconButton
 } from "../../common/Index";
 import "./Agent.css";
 import { Backend_EndPoint } from '../Constant/EndPoints';
@@ -27,6 +28,7 @@ function AgentList() {
     const [agentList, setAgentList] = useState<AgentDetails[]>([]);
     const [totalActiveAgent, setTotalActiveAgent] = useState<number>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [searchTerm, setSearchTerm] = useState<string>('');
     const itemsPerPage: number = 10;
     const token = localStorage.getItem('jwtToken');
 
@@ -43,7 +45,7 @@ function AgentList() {
 
                 if (response.status === 200) {
                     const agentsOnly = (response.data).filter((agent: AgentDetails) => agent.role === 'Agent');
-                    
+
                     setTotalActiveAgent(agentsOnly.length);
                     setAgentList(agentsOnly);
                 }
@@ -55,8 +57,18 @@ function AgentList() {
         }
     };
 
-    const totalPages = Math.ceil(agentList.length / itemsPerPage);
-    const displayedAgents = agentList.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+    const filteredAgent = useMemo(() => {
+        if (!searchTerm) return agentList;
+        return agentList.filter((agent: any) =>
+            agent.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            agent.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            agent.walletAddress.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            agent.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [agentList, searchTerm]);
+
+    const totalPages = Math.ceil(filteredAgent.length / itemsPerPage);
+    const displayedAgents = filteredAgent.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
     const handleNextPage = () => {
         if (currentPage < totalPages - 1) {
@@ -70,8 +82,16 @@ function AgentList() {
         }
     };
 
+    const handleFocus = () => {
+        setSearchTerm(''); 
+    };
+
+
     useEffect(() => {
-        FetchAllUser();
+        if (token) {
+
+            FetchAllUser();
+        }
     }, []);
 
     return (
@@ -86,8 +106,25 @@ function AgentList() {
                         marginBottom: '20px',
                         width: "100%"
                     }}
-                >
-                    <Typography variant="h4" sx={{ fontWeight: "bold" }}>Agent List</Typography>
+                >     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="h4" sx={{ fontWeight: "bold" }}>Agent List({agentList.length})</Typography>
+                    <Paper
+                            component="form"
+                            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, marginLeft: "49%" }}
+                        >
+                           <InputBase
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder="Search transactions"
+                                inputProps={{ 'aria-label': 'search transactions' }}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onFocus={handleFocus} 
+                            />
+                            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                <SearchIcon />
+                            </IconButton>
+                        </Paper>
+                        </Box>
                     <Typography variant="body2">Dashboard / Agent List</Typography>
                 </Box>
                 <Grid container spacing={2}>
@@ -119,13 +156,13 @@ function AgentList() {
                     <Box
                         sx={{
                             backgroundColor: '#fff',
-                            height: '80vh',  
+                            height: '80vh',
                             marginTop: '20px',
                             borderRadius: '8px',
                             boxShadow: '0px 4px 12px rgba(0,0,0,0.1)',
                             padding: '20px',
                             display: 'flex',
-                            flexDirection: 'column', 
+                            flexDirection: 'column',
                         }}
                     >
                         {isLoading ? (
@@ -164,7 +201,7 @@ function AgentList() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                                
+
                                 {/* Pagination Controls */}
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 'auto' }}>
                                     <button onClick={handlePrevPage} disabled={currentPage === 0}>
