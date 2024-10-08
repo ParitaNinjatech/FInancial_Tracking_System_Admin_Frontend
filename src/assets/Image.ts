@@ -1,10 +1,5 @@
-import Metamask from "./Metamask.png"
-import BackGroundImage from "./BackGroundImage.png"
+import Metamask from "./Metamask.png";
+import BackGroundImage from "./BackGroundImage.png";
 import Dog from "./dog.png";
-import User from './user.png'
-export {
-    Metamask,
-    BackGroundImage,
-    Dog,
-    User
-}
+import User from "./user.png";
+export { Metamask, BackGroundImage, Dog, User };

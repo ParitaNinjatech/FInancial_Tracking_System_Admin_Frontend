@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Avatar,
   Button,
@@ -11,38 +11,53 @@ import {
   Typography,
   Container,
   Card,
-  CardContent, Grid, LockOutlinedIcon, createTheme, ThemeProvider, ToastContainer, toast, axios
+  CardContent,
+  Grid,
+  LockOutlinedIcon,
+  createTheme,
+  ThemeProvider,
+  ToastContainer,
+  toast,
+  axios,
 } from "../../common/Index";
-import { Metamask, BackGroundImage } from '../../assets/Image';
-import { Backend_EndPoint } from '../Constant/EndPoints';
-import 'react-toastify/dist/ReactToastify.css';
+import { Metamask, BackGroundImage } from "../../assets/Image";
+import { Backend_EndPoint } from "../Constant/EndPoints";
+import "react-toastify/dist/ReactToastify.css";
 
 const theme = createTheme();
 
 export default function Signin() {
-  const [username, setUserName] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  const [username, setUserName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allowExtraEmails, setAllowExtraEmails] = useState<boolean>(false);
   const [errors, setErrors] = useState({
-    username: '',
-    email: '',
-    password: '',
-    checkbox: ''
+    username: "",
+    email: "",
+    password: "",
+    checkbox: "",
   });
 
-  const validateUsername = (value: string) => {
+  const validateUsernameOrEmail = (value: string) => {
     const usernameRegex = /^[a-zA-Z0-9]{6,16}$/;
-    if (!email && (!value || !usernameRegex.test(value))) {
-      setErrors(prevErrors => ({
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!value) {
+      setErrors((prevErrors) => ({
         ...prevErrors,
-        username: 'Username must contain only letters and numbers, and be between 6 to 16 characters long',
+        username: "Please enter a username or email",
+      }));
+    } else if (!emailRegex.test(value) && !usernameRegex.test(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        username:
+          "Username must be 6-16 characters long (letters and numbers only) or a valid email address",
       }));
     } else {
-      setErrors(prevErrors => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
-        username: '',
+        username: "",
       }));
     }
   };
@@ -50,43 +65,45 @@ export default function Signin() {
   const validateEmail = (value: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!username && (!value || !emailRegex.test(value))) {
-      setErrors(prevErrors => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
-        email: 'Enter a valid email address',
+        email: "Enter a valid email address",
       }));
     } else {
-      setErrors(prevErrors => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
-        email: '',
+        email: "",
       }));
     }
   };
 
   const validatePassword = (value: string) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,12}$/;
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,12}$/;
     if (!value || !passwordRegex.test(value)) {
-      setErrors(prevErrors => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
-        password: 'Password must be 6-12 characters long and include at least one letter, one number, and one special character',
+        password:
+          "Password must be 6-12 characters long and include at least one letter, one number, and one special character",
       }));
     } else {
-      setErrors(prevErrors => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
-        password: '',
+        password: "",
       }));
     }
   };
 
   const validateCheckbox = (isChecked: boolean) => {
     if (!isChecked) {
-      setErrors(prevErrors => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
-        checkbox: 'You must agree to the terms of service.',
+        checkbox: "You must agree to the terms of service.",
       }));
     } else {
-      setErrors(prevErrors => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
-        checkbox: '',
+        checkbox: "",
       }));
     }
   };
@@ -95,12 +112,12 @@ export default function Signin() {
     event.preventDefault();
 
     // Ensure all fields are validated on submit
-    validateUsername(username);
+    validateUsernameOrEmail(username);
     validateEmail(email);
     validatePassword(password);
     validateCheckbox(allowExtraEmails);
 
-    if (errors.username || errors.email || errors.password || errors.checkbox) {
+    if (errors.username || errors.password || errors.checkbox) {
       toast.error("Please correct the form errors");
       return;
     }
@@ -108,23 +125,27 @@ export default function Signin() {
     try {
       setIsLoading(true);
       const payload = {
-        username: username,
+        key: username,
         password: password,
-        role: "Admin"
+        role: "Admin",
       };
 
-      const response = await axios.post(`${Backend_EndPoint}api/v1/user/login`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.post(
+        `${Backend_EndPoint}api/v1/user/login`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       if (response.status === 200) {
         toast.success("Admin Login SuccessFully");
-        localStorage.setItem('jwtToken', response.data.token);
+        localStorage.setItem("jwtToken", response.data.token);
 
         setTimeout(() => {
-          window.location.href = '/';
+          window.location.href = "/";
         }, 3000);
       }
     } catch (error) {
@@ -146,10 +167,10 @@ export default function Signin() {
 
   const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
-    validateUsername(e.target.value);
+    validateUsernameOrEmail(e.target.value);
 
-    if (e.target.value !== '') {
-      setEmail('');
+    if (e.target.value !== "") {
+      setEmail("");
     }
   };
 
@@ -157,8 +178,8 @@ export default function Signin() {
     setEmail(e.target.value);
     validateEmail(e.target.value);
 
-    if (e.target.value !== '') {
-      setUserName('');
+    if (e.target.value !== "") {
+      setUserName("");
     }
   };
 
@@ -174,73 +195,87 @@ export default function Signin() {
           component="main"
           maxWidth={false}
           sx={{
-            minHeight: '100vh',
-            width: '100vw',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            minHeight: "100vh",
+            width: "100vw",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             backgroundImage: `url(${BackGroundImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
             padding: 0,
             margin: 0,
-            overflow: 'hidden',
+            overflow: "hidden",
           }}
         >
           <CssBaseline />
           <ToastContainer />
-          <Grid container spacing={2} sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' }, pr: 10 }}>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              minHeight: "100vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{ display: { xs: "none", md: "block" }, pr: 10 }}
+            >
               <Box>
-                <Typography variant="h4" gutterBottom sx={{ color: "maroon", mb: 4 }}>
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  sx={{ color: "maroon", mb: 4 }}
+                >
                   Welcome to the Financial Tracking System
                 </Typography>
               </Box>
             </Grid>
 
             {/* Right Side - Sign In Form */}
-            <Grid item xs={12} md={4} sx={{ pl: 8 }} >
+            <Grid item xs={12} md={4} sx={{ pl: 8 }}>
               <Card sx={{ p: 3 }}>
                 <CardContent>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
                       <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                       Sign In
                     </Typography>
-                    <Box component="form" noValidate sx={{ mt: 3 }} onSubmit={handleSubmit}>
+                    <Box
+                      component="form"
+                      noValidate
+                      sx={{ mt: 3 }}
+                      onSubmit={handleSubmit}
+                    >
                       <Grid container spacing={2}>
                         <Grid item xs={12}>
                           <TextField
                             required
                             fullWidth
                             id="userName"
-                            label="User Name"
+                            label="User Name / Email"
                             name="username"
-                            autoComplete="username"
+                            autoComplete="off"
                             value={username}
                             onChange={handleUserNameChange}
-                            disabled={!!email}
                             error={Boolean(errors.username && !email)}
-                            helperText={errors.username && !email ? errors.username : ''}
-                          />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                          <TextField
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            value={email}
-                            onChange={handleEmailChange}
-                            disabled={!!username}
-                            error={Boolean(errors.email && !username)}
-                            helperText={errors.email && !username ? errors.email : ''}
+                            helperText={
+                              errors.username && !email ? errors.username : ""
+                            }
                           />
                         </Grid>
 
@@ -252,7 +287,7 @@ export default function Signin() {
                             label="Password"
                             type="password"
                             id="password"
-                            autoComplete="new-password"
+                            autoComplete="off"
                             value={password}
                             onChange={handlePasswordChange}
                             error={Boolean(errors.password)}
@@ -278,32 +313,34 @@ export default function Signin() {
                             label="I agree to all statements in Terms of service."
                             required
                           />
-                          {errors.checkbox && <Typography color="error">{errors.checkbox}</Typography>}
+                          {errors.checkbox && (
+                            <Typography color="error">
+                              {errors.checkbox}
+                            </Typography>
+                          )}
                         </Grid>
                       </Grid>
-                      {
-                        isLoading ? (
-                          <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, borderRadius: "26px" }}
-                            className='signUp-button'
-                          >
-                            <span className="loader"></span>
-                          </Button>
-                        ) : (
-                          <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, borderRadius: "26px" }}
-                            className='signUp-button'
-                          >
-                            Sign In
-                          </Button>
-                        )
-                      }
+                      {isLoading ? (
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ mt: 3, mb: 2, borderRadius: "26px" }}
+                          className="signUp-button"
+                        >
+                          <span className="loader"></span>
+                        </Button>
+                      ) : (
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ mt: 3, mb: 2, borderRadius: "26px" }}
+                          className="signUp-button"
+                        >
+                          Sign In
+                        </Button>
+                      )}
 
                       {/* <Button
                         type="button"
@@ -332,7 +369,6 @@ export default function Signin() {
                 </CardContent>
               </Card>
             </Grid>
-
           </Grid>
         </Container>
       </ThemeProvider>

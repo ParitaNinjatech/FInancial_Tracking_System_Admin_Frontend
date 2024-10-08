@@ -1,43 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import { styled, useTheme, CSSObject } from '@mui/material/styles';
+import React, { useState, useEffect } from "react";
+import { styled, useTheme, CSSObject } from "@mui/material/styles";
 import {
-  Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, IconButton, Typography, Toolbar, CssBaseline, MuiDrawer, MuiAppBar, AccountCircleIcon, PersonAddIcon,
-  AccountBoxIcon, ListIcon, LogoutIcon,LockIcon,LockOpenIcon
-} from '../../common/Index';
-import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import { Menu as MenuIcon, ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon, Inbox as InboxIcon, Mail as MailIcon } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
-import './Header.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  IconButton,
+  Typography,
+  Toolbar,
+  CssBaseline,
+  MuiDrawer,
+  MuiAppBar,
+  AccountCircleIcon,
+  PersonAddIcon,
+  AccountBoxIcon,
+  ListIcon,
+  LogoutIcon,
+  LockIcon,
+  LockOpenIcon,
+} from "../../common/Index";
+import { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import {
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  Inbox as InboxIcon,
+  Mail as MailIcon,
+} from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import "./Header.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const drawerWidth = 240;
 
 const openedMixin = (theme: any): CSSObject => ({
   width: drawerWidth,
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme: any): CSSObject => ({
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
 }));
@@ -47,61 +71,61 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
   }),
-);
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
 
 export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>();
   useEffect(() => {
-    const jwtToken = localStorage.getItem('jwtToken');
+    const jwtToken = localStorage.getItem("jwtToken");
     setToken(jwtToken);
   }, []);
 
   const Logout = async () => {
     try {
-      localStorage.setItem('jwtToken', '');
+      localStorage.setItem("jwtToken", "");
       toast.success("Admin LogOut Successfully");
       setToken(null);
       setTimeout(() => {
-        window.location.href = '/signIn';
+        window.location.href = "/signIn";
       }, 3000);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -112,7 +136,7 @@ export default function Header() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: "#1976d2" }}>
         <Toolbar>
@@ -122,12 +146,17 @@ export default function Header() {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ marginRight: 5, ...(open && { display: 'none' }) }}
+            sx={{ marginRight: 5, ...(open && { display: "none" }) }}
           >
             <MenuIcon />
           </IconButton>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <Typography variant="h6" noWrap component="div" sx={{ color: "white" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ color: "white" }}
+            >
               Admin Panel
             </Typography>
           </Link>
@@ -137,7 +166,11 @@ export default function Header() {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />

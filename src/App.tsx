@@ -1,13 +1,11 @@
-
-
-import AppRoutes from "./Components/routes/Routes"
+import AppRoutes from "./Components/routes/Routes";
 
 function App() {
   return (
     <>
-       <AppRoutes/>
+      <AppRoutes />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
